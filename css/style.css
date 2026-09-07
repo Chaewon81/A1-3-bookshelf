@@ -1,0 +1,24 @@
+h1 {
+    color: blue;
+}
+
+p {
+    color: red;
+}
+
+.book-list {
+    display: flex;
+}
+
+.book-card {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 10px;
+}
+
+.book-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+

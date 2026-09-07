@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>책장</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <h1>📚 책장</h1>
+    <p>나의 독서 공간</p>
+
+    <nav>
+        <a href="#books">나의 책</a>
+        <a href="#recommend">AI 책 추천</a>
+        <a href="#records">독서 기록</a>
+    </nav>
+
+    <section id="books">
+        <h2>📌 나의 책</h2>
+
+        <div class="book-form">
+            <input type="text" id="book-title" placeholder="책 제목을 입력하세요">
+
+            <select id="book-status">
+                <option value="want">읽고 싶은 책</option>
+                <option value="reading">읽는 중</option>
+                <option value="finished">읽은 책</option>
+            </select>
+
+            <button id="add-book">+ 책 추가</button>
+        </div>
+
+        <div class="book-list">
+            <div class="book-card" id="want-books">
+                <h3>읽고 싶은 책</h3>
+            </div>
+
+            <div class="book-card" id="reading-books">
+                <h3>📖 읽는 중</h3>
+            </div>
+
+            <div class="book-card" id="finished-books">
+                <h3>✅ 읽은 책</h3>
+            </div>
+        </div>
+
+
+    </section>
+
+    <section id="recommend">
+        <h2>🤖 AI 책 추천</h2>
+
+        <p>나에게 맞는 책을 AI에게 추천받아보세요.</p>
+    </section>
+
+    <section id="records">
+        <h2>📝 독서 기록</h2>
+
+        <p>읽은 책에 대한 나의 기록을 남겨보세요.</p>
+    </section>
+    
+    <script src="js/app.js"></script>
+
+</body>
+</html>
