@@ -22,3 +22,28 @@ p {
     margin-top: 10px;
 }
 
+
+#recommend-result {
+    white-space: pre-wrap;
+}
+
+.recommend-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.recommend-card h3 {
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .book-list {
+        flex-direction: column;
+    }
+
+    .book-card {
+        width: auto;
+    }
+}

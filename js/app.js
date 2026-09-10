@@ -98,4 +98,49 @@ addBookButton.addEventListener("click", function () {
     bookTitle.value = "";
 });
 
+// AI 추천 입력값 읽기 + 빈 입력 처리
+const recommendInput = document.querySelector("#recommend-input");
+const recommendButton = document.querySelector("#recommend-button");
+const recommendResult = document.querySelector("#recommend-result");
+
+// 클릭 이벤트
+recommendButton.addEventListener("click", function () {
+    const input = recommendInput.value.trim();
+
+    if (input === "") {
+        recommendResult.textContent = "추천받을 조건을 입력해주세요.";
+        return;
+    }
+
+    recommendResult.textContent = "요청 중입니다...";
+
+   //  프론트에서 fetch()로 Python API 호출하기
+    fetch("/api/recommend", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            input: input
+        })
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        recommendResult.innerHTML = `
+            <div class="recommend-card">
+                <h3>${data.title}</h3>
+                <p><strong>저자:</strong> ${data.author}</p>
+                <p><strong>추천 이유:</strong></p>
+                <p>${data.reason}</p>
+            </div>
+        `;
+    })
+    .catch(function (error) {
+        recommendResult.textContent = "요청 중 오류가 발생했습니다.";
+        console.error(error);
+    });
+
+});
 

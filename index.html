@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>책장</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -51,8 +52,20 @@
 
     <section id="recommend">
         <h2>🤖 AI 책 추천</h2>
-
         <p>나에게 맞는 책을 AI에게 추천받아보세요.</p>
+
+        <div class="recommend-form">
+            <textarea
+                id="recommend-input"
+                placeholder="요즘 기분, 관심 분야, 읽고 싶은 책의 느낌 등을 적어주세요."
+            ></textarea>
+
+            <button id="recommend-button">AI 추천받기</button>
+        </div>
+
+        <div id="recommend-result">
+            <!-- AI 추천 결과가 여기에 표시됩니다 -->
+        </div>
     </section>
 
     <section id="records">
