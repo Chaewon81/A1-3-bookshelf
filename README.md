@@ -69,8 +69,8 @@ API Key를 브라우저 JavaScript에 넣지 않고 Python 서버리스 함수�
 ### 1. 저장소 준비
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd <PROJECT_FOLDER>
+git clone <https://github.com/Chaewon81/A1-3-bookshelf.git>
+cd <A1-3-bookshelf>
 ```
 
 ### 2. Python 의존성 설치
@@ -105,9 +105,8 @@ vercel dev
 
 ### 배포 URL
 
-`<VERCEL_PRODUCTION_URL>`
+`<https://bookshelf-jade-three.vercel.app>`
 
-> 최종 제출 전에 실제 Production URL로 위 값을 교체합니다.
 
 ## AI 입력 / 출력 / 실패 처리
 
@@ -142,7 +141,7 @@ Live Server에서는 정적 HTML/CSS/JS는 확인할 수 있지만 Vercel Python
 - 독서 통계와 월별 리포트
 - AI 추천 결과를 바로 ‘읽고 싶은 책’에 추가하는 기능
 
-## ���� URL
+## ���� URL
 
 https://bookshelf-jade-three.vercel.app
 
