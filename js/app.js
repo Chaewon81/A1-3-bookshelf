@@ -1,146 +1,157 @@
 const bookTitle = document.querySelector("#book-title");
 const addBookButton = document.querySelector("#add-book");
-const bookList = document.querySelector(".book-list");
-const wantBooks = document.querySelector("#want-books");
-const readingBooks = document.querySelector("#reading-books");
-const finishedBooks = document.querySelector("#finished-books");
 const bookStatus = document.querySelector("#book-status");
-
-
-
-// ① localStorage에 저장된 책 데이터를 불러와 JavaScript 배열로 변환
-// 저장된 데이터가 없으면 빈 배열 []로 시작
-// localStorage.getItem() → 저장된 데이터 가져오기
-// JSON.parse()           → 문자열(JSON)을 JavaScript 배열/객체로 변환
+const statusContainers = {
+    want: document.querySelector("#want-books .book-items"),
+    reading: document.querySelector("#reading-books .book-items"),
+    finished: document.querySelector("#finished-books .book-items")
+};
 
 let books = JSON.parse(localStorage.getItem("books")) || [];
 
-function addBookToScreen(book) {
-    const newBook = document.createElement("div");
-    newBook.classList.add("book-item");
-
-    const bookTitleElement = document.createElement("h3");
-    bookTitleElement.textContent = book.title;
-
-    newBook.appendChild(bookTitleElement);
-
-    // delete (삭제) 버튼 JavaScript 로 생성
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "삭제";
-
-    newBook.appendChild(deleteButton);
-
-    deleteButton.addEventListener("click", function () {
-        books = books.filter(function (savedBook) {
-            return savedBook.title !== book.title;
-        });
-
-        localStorage.setItem("books", JSON.stringify(books));
-
-        newBook.remove();
-    });
-
-    if (book.status === "want") {
-        wantBooks.appendChild(newBook);
-    } else if (book.status === "reading") {
-        readingBooks.appendChild(newBook);
-    } else if (book.status === "finished") {
-        finishedBooks.appendChild(newBook);
-    }
+function saveBooks() {
+    localStorage.setItem("books", JSON.stringify(books));
 }
 
+function renderBooks() {
+    Object.values(statusContainers).forEach(function (container) { container.innerHTML = ""; });
 
-// 저장된 책들을 하나씩 꺼내 화면에 다시 표시
-// 새로고침(F5)해도 저장된 책이 화면에 보이게 하는 역할
+    books.forEach(function (book, index) {
+        const item = document.createElement("div");
+        item.className = "book-item";
 
-books.forEach(function (book) {
-    addBookToScreen(book);
-});
+        const title = document.createElement("h4");
+        title.textContent = book.title;
+        item.appendChild(title);
 
-// 책 추가
-addBookButton.addEventListener("click", function () {
+        const actions = document.createElement("div");
+        actions.className = "book-actions";
 
-    // 1. 입력한 책 제목 가져오기
-    const title = bookTitle.value.trim();
+        const statusSelect = document.createElement("select");
+        [["want","읽고 싶은 책"],["reading","읽는 중"],["finished","읽은 책"]].forEach(function (optionData) {
+            const option = document.createElement("option");
+            option.value = optionData[0];
+            option.textContent = optionData[1];
+            option.selected = book.status === optionData[0];
+            statusSelect.appendChild(option);
+        });
+        statusSelect.addEventListener("change", function () {
+            books[index].status = statusSelect.value;
+            saveBooks();
+            renderBooks();
+        });
 
-    // 2. 빈 입력 검사
-    if (title === "") {
-        alert("책 제목을 입력해주세요.");
-        return;
-    }
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "삭제";
+        deleteButton.addEventListener("click", function () {
+            books.splice(index, 1);
+            saveBooks();
+            renderBooks();
+        });
 
-    // 3. 중복 검사 추가
-    const isDuplicate = books.some(function (book) {
-        return book.title === title;
+        actions.append(statusSelect, deleteButton);
+        item.appendChild(actions);
+        (statusContainers[book.status] || statusContainers.want).appendChild(item);
     });
+}
 
-    if (isDuplicate) {
-        alert("이미 등록된 책입니다.");
-        return;
+addBookButton.addEventListener("click", function () {
+    const title = bookTitle.value.trim();
+    if (!title) { alert("책 제목을 입력해주세요."); return; }
+    if (books.some(function (book) { return book.title.toLowerCase() === title.toLowerCase(); })) {
+        alert("이미 등록된 책입니다."); return;
     }
-
-    // 4. 새 책 객체 만들기
-    const newBook = {
-        title: title,
-        status: bookStatus.value
-    };
-
-    // 5. books 배열에 추가
-    books.push(newBook);
-
-    // 6. localStorage에 저장
-    localStorage.setItem("books", JSON.stringify(books));
-
-    // 7. 화면에 표시
-    addBookToScreen(newBook);
-
-    // 8. 입력창 비우기
+    books.push({ title: title, status: bookStatus.value });
+    saveBooks();
+    renderBooks();
     bookTitle.value = "";
 });
+bookTitle.addEventListener("keydown", function (event) { if (event.key === "Enter") addBookButton.click(); });
+renderBooks();
 
-// AI 추천 입력값 읽기 + 빈 입력 처리
 const recommendInput = document.querySelector("#recommend-input");
 const recommendButton = document.querySelector("#recommend-button");
 const recommendResult = document.querySelector("#recommend-result");
 
-// 클릭 이벤트
+function showRecommendation(data) {
+    recommendResult.innerHTML = "";
+    const card = document.createElement("div"); card.className = "recommend-card";
+    const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = "AI RECOMMENDATION";
+    const title = document.createElement("h3"); title.textContent = data.title || "추천 도서";
+    const author = document.createElement("p"); author.className = "author"; author.textContent = "저자 · " + (data.author || "정보 없음");
+    const reason = document.createElement("p"); reason.className = "reason"; reason.textContent = data.reason || "추천 이유를 불러오지 못했습니다.";
+    card.append(tag, title, author, reason); recommendResult.appendChild(card);
+}
+
 recommendButton.addEventListener("click", function () {
     const input = recommendInput.value.trim();
+    if (!input) { recommendResult.innerHTML = '<div class="error-message">추천받을 조건을 입력해주세요.</div>'; return; }
 
-    if (input === "") {
-        recommendResult.textContent = "추천받을 조건을 입력해주세요.";
-        return;
-    }
+    recommendResult.innerHTML = '<div class="loading">책을 찾고 있어요. 잠시만 기다려주세요.</div>';
+    recommendButton.disabled = true;
 
-    recommendResult.textContent = "요청 중입니다...";
-
-   //  프론트에서 fetch()로 Python API 호출하기
     fetch("/api/recommend", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            input: input
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: input })
     })
     .then(function (response) {
+        console.log("HTTP 상태코드:", response.status);
+        console.log("요청 성공 여부:", response.ok);
+        if (!response.ok) throw new Error("API 요청 실패: " + response.status);
         return response.json();
     })
-    .then(function (data) {
-        recommendResult.innerHTML = `
-            <div class="recommend-card">
-                <h3>${data.title}</h3>
-                <p><strong>저자:</strong> ${data.author}</p>
-                <p><strong>추천 이유:</strong></p>
-                <p>${data.reason}</p>
-            </div>
-        `;
-    })
+    .then(showRecommendation)
     .catch(function (error) {
-        recommendResult.textContent = "요청 중 오류가 발생했습니다.";
+        recommendResult.innerHTML = '<div class="error-message">추천을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>';
         console.error(error);
-    });
-
+    })
+    .finally(function () { recommendButton.disabled = false; });
 });
 
+const recordTitle = document.querySelector("#record-title");
+const recordRating = document.querySelector("#record-rating");
+const recordReview = document.querySelector("#record-review");
+const recordQuote = document.querySelector("#record-quote");
+const recordThought = document.querySelector("#record-thought");
+const saveRecordButton = document.querySelector("#save-record");
+const recordMessage = document.querySelector("#record-message");
+const recordList = document.querySelector("#record-list");
+let records = JSON.parse(localStorage.getItem("readingRecords")) || [];
+
+function saveRecords() { localStorage.setItem("readingRecords", JSON.stringify(records)); }
+function renderRecords() {
+    recordList.innerHTML = "";
+    records.slice().reverse().forEach(function (record, reverseIndex) {
+        const originalIndex = records.length - 1 - reverseIndex;
+        const item = document.createElement("article"); item.className = "record-item";
+        const top = document.createElement("div"); top.className = "record-top";
+        const title = document.createElement("h3"); title.textContent = record.title;
+        const del = document.createElement("button"); del.type = "button"; del.className = "record-delete"; del.textContent = "삭제";
+        del.addEventListener("click", function () { records.splice(originalIndex, 1); saveRecords(); renderRecords(); });
+        top.append(title, del);
+        const meta = document.createElement("p"); meta.className = "record-meta"; meta.textContent = "★".repeat(Number(record.rating)) + " · " + record.date;
+        item.append(top, meta);
+        [["한줄평",record.review],["기억하고 싶은 문장",record.quote],["나에게 남은 것",record.thought]].forEach(function (part) {
+            if (!part[1]) return;
+            const p = document.createElement("p");
+            const label = document.createElement("span"); label.className = "label"; label.textContent = part[0] + " · ";
+            p.append(label, document.createTextNode(part[1])); item.appendChild(p);
+        });
+        recordList.appendChild(item);
+    });
+}
+
+saveRecordButton.addEventListener("click", function () {
+    const title = recordTitle.value.trim();
+    if (!title) { recordMessage.textContent = "책 제목을 입력해주세요."; recordTitle.focus(); return; }
+    records.push({
+        title: title, rating: recordRating.value, review: recordReview.value.trim(), quote: recordQuote.value.trim(), thought: recordThought.value.trim(),
+        date: new Date().toLocaleDateString("ko-KR")
+    });
+    saveRecords(); renderRecords();
+    recordTitle.value = ""; recordReview.value = ""; recordQuote.value = ""; recordThought.value = ""; recordRating.value = "5";
+    recordMessage.textContent = "독서 기록을 저장했습니다.";
+});
+renderRecords();
