@@ -141,3 +141,8 @@ Live Server에서는 정적 HTML/CSS/JS는 확인할 수 있지만 Vercel Python
 - 사용자 계정 및 클라우드 저장
 - 독서 통계와 월별 리포트
 - AI 추천 결과를 바로 ‘읽고 싶은 책’에 추가하는 기능
+
+## ���� URL
+
+https://bookshelf-jade-three.vercel.app
+
