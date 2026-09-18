@@ -8,3 +8,4 @@
 .git/
 *.pyc
 __pycache__/
+note.md
