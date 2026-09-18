@@ -1,0 +1,10 @@
+# Never upload local secrets or developer-specific configuration.
+.env
+.env.*
+.venv/
+.vercel/
+
+# Local-only repository material.
+.git/
+*.pyc
+__pycache__/

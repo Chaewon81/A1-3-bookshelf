@@ -1,96 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="책을 관리하고 독서 기록을 남기며 AI에게 다음 책을 추천받는 개인 독서 웹서비스">
-    <title>책장 | BOOKSHELF</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="책을 관리하고 독서 기록을 남기며 AI 책 추천을 받는 개인 독서 서비스">
+  <title>책장 | BOOKSHELF</title><link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-inner">
-            <a class="brand" href="#top" aria-label="책장 홈">📚 <span>책장</span></a>
-            <nav aria-label="주요 메뉴">
-                <a href="#books">나의 책</a>
-                <a href="#recommend">AI 책 추천</a>
-                <a href="#records">독서 기록</a>
-            </nav>
-        </div>
-    </header>
-
-    <main id="top" class="container">
-        <section class="hero">
-            <p class="eyebrow">MY READING SPACE</p>
-            <h1>읽고, 기록하고,<br>다음 책을 발견하는 공간</h1>
-            <p>읽고 싶은 책을 정리하고 독서의 순간을 남겨보세요. 다음 책이 고민될 때는 AI가 한 권을 추천해 드립니다.</p>
-        </section>
-
-        <section id="books" class="section-card">
-            <div class="section-heading">
-                <div><span class="section-number">01</span><h2>나의 책</h2></div>
-                <p>책을 추가하고 읽기 상태를 관리해보세요.</p>
-            </div>
-
-            <div class="book-form">
-                <label class="sr-only" for="book-title">책 제목</label>
-                <input type="text" id="book-title" placeholder="책 제목을 입력하세요" maxlength="100">
-                <label class="sr-only" for="book-status">독서 상태</label>
-                <select id="book-status">
-                    <option value="want">읽고 싶은 책</option>
-                    <option value="reading">읽는 중</option>
-                    <option value="finished">읽은 책</option>
-                </select>
-                <button id="add-book" type="button">+ 책 추가</button>
-            </div>
-
-            <div class="book-list">
-                <div class="book-card" id="want-books"><h3>🔖 읽고 싶은 책</h3><div class="book-items"></div></div>
-                <div class="book-card" id="reading-books"><h3>📖 읽는 중</h3><div class="book-items"></div></div>
-                <div class="book-card" id="finished-books"><h3>✅ 읽은 책</h3><div class="book-items"></div></div>
-            </div>
-        </section>
-
-        <section id="recommend" class="section-card recommend-section">
-            <div class="section-heading">
-                <div><span class="section-number">02</span><h2>AI 책 추천</h2></div>
-                <p>지금의 마음과 관심사를 자유롭게 적어주세요.</p>
-            </div>
-            <div class="recommend-form">
-                <label for="recommend-input">어떤 책을 읽고 싶나요?</label>
-                <textarea id="recommend-input" maxlength="500" placeholder="예: 요즘 진로를 고민하고 있어요. 너무 무겁지 않으면서 생각할 거리를 주는 한국 소설을 읽고 싶어요."></textarea>
-                <button id="recommend-button" type="button">AI에게 한 권 추천받기</button>
-            </div>
-            <div id="recommend-result" aria-live="polite"></div>
-        </section>
-
-        <section id="records" class="section-card">
-            <div class="section-heading">
-                <div><span class="section-number">03</span><h2>독서 기록</h2></div>
-                <p>책을 읽고 남은 생각을 짧게 기록해보세요.</p>
-            </div>
-            <div class="record-form">
-                <div class="form-row">
-                    <label for="record-title">책 제목</label>
-                    <input id="record-title" type="text" maxlength="100" placeholder="책 제목">
-                </div>
-                <div class="form-row">
-                    <label for="record-rating">별점</label>
-                    <select id="record-rating">
-                        <option value="5">★★★★★ 5</option><option value="4">★★★★☆ 4</option><option value="3">★★★☆☆ 3</option><option value="2">★★☆☆☆ 2</option><option value="1">★☆☆☆☆ 1</option>
-                    </select>
-                </div>
-                <div class="form-row full"><label for="record-review">한줄평</label><input id="record-review" type="text" maxlength="150" placeholder="이 책을 한 문장으로 남긴다면?"></div>
-                <div class="form-row full"><label for="record-quote">기억하고 싶은 문장</label><textarea id="record-quote" maxlength="300" placeholder="기억하고 싶은 문장을 적어보세요."></textarea></div>
-                <div class="form-row full"><label for="record-thought">나에게 남은 것</label><textarea id="record-thought" maxlength="500" placeholder="책을 읽고 든 생각이나 달라진 점을 적어보세요."></textarea></div>
-                <button id="save-record" type="button">기록 저장하기</button>
-            </div>
-            <p id="record-message" class="form-message" aria-live="polite"></p>
-            <div id="record-list" class="record-list"></div>
-        </section>
-    </main>
-
-    <footer><p>BOOKSHELF · 나만의 독서 공간</p></footer>
-    <script src="js/app.js"></script>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="#top" aria-label="책장 홈">📚 <span>책장</span></a><nav aria-label="주요 메뉴"><a href="#books">나의 책</a><a href="#recommend">AI 추천</a><a href="#records">독서 기록</a><a href="#calendar">독서 달력</a><a href="#summary">책 요약</a></nav></div></header>
+  <main id="top" class="container">
+    <section class="hero"><p class="eyebrow">MY READING SPACE</p><h1>읽고, 기록하고,<br>다음 책을 발견하는 공간</h1><p>읽고 싶은 책을 정리하고 독서의 시간을 기록해 보세요. 책장에 쌓인 데이터를 바탕으로 취향도 발견할 수 있습니다.</p></section>
+    <section id="books" class="section-card"><div class="section-heading"><div><span class="section-number">01</span><h2>나의 책</h2></div><p>책 제목, 작가, 분류를 함께 저장하고 읽기 상태를 관리하세요.</p></div>
+      <div class="book-form"><label class="sr-only" for="book-title">책 제목</label><input type="text" id="book-title" placeholder="책 제목" maxlength="100"><label class="sr-only" for="book-author">작가</label><input type="text" id="book-author" placeholder="작가" maxlength="60"><label class="sr-only" for="book-category">도서 분류</label><select id="book-category"><option value="소설">소설</option><option value="역사">역사</option><option value="인문">인문</option><option value="사회">사회</option><option value="과학">과학</option><option value="예술">예술</option><option value="외국어">외국어</option><option value="자기계발">자기계발</option><option value="기타">기타</option></select><label class="sr-only" for="book-status">읽기 상태</label><select id="book-status"><option value="want">읽고 싶은 책</option><option value="reading">읽는 중</option><option value="finished">읽은 책</option></select><div id="book-added-date-field" class="book-date-field"><label for="book-added-date">담은 날짜</label><input type="date" id="book-added-date"></div><div id="book-started-date-field" class="book-date-field" hidden><label for="book-started-date">읽기 시작일</label><input type="date" id="book-started-date"></div><div id="book-finished-date-field" class="book-date-field" hidden><label for="book-finished-date">완료일</label><input type="date" id="book-finished-date"></div><button id="add-book" type="button">+ 책 추가</button></div>
+      <div class="book-list"><div class="book-card" id="want-books"><h3>📖 읽고 싶은 책</h3><div class="book-items"></div></div><div class="book-card" id="reading-books"><h3>📚 읽는 중</h3><div class="book-items"></div></div><div class="book-card" id="finished-books"><h3>✓ 읽은 책</h3><div class="book-items"></div></div></div>
+    </section>
+    <section id="recommend" class="section-card recommend-section"><div class="section-heading"><div><span class="section-number">02</span><h2>AI 책 추천</h2></div><p>지금의 마음과 관심사를 자유롭게 적어 주세요.</p></div><div class="recommend-form"><label for="recommend-input">어떤 책을 읽고 싶나요?</label><textarea id="recommend-input" maxlength="500" placeholder="예: 가벼운 위로를 주는 한국 소설을 읽고 싶어요."></textarea><button id="recommend-button" type="button">AI에게 한 권 추천받기</button></div><div id="recommend-result" aria-live="polite"></div></section>
+    <section id="records" class="section-card"><div class="section-heading"><div><span class="section-number">03</span><h2>독서 기록</h2></div><p>책을 읽고 든 생각을 기록해 보세요.</p></div><div class="record-form"><div class="form-row"><label for="record-title">책 제목</label><input id="record-title" type="text" maxlength="100" placeholder="책 제목"></div><div class="form-row"><label for="record-rating">별점</label><select id="record-rating"><option value="5">★★★★★ 5</option><option value="4">★★★★☆ 4</option><option value="3">★★★☆☆ 3</option><option value="2">★★☆☆☆ 2</option><option value="1">★☆☆☆☆ 1</option></select></div><div class="form-row"><label for="record-date">기록한 날짜</label><input id="record-date" type="date"></div><div class="form-row full"><label for="record-review">한줄평</label><input id="record-review" type="text" maxlength="150" placeholder="이 책을 한 문장으로 남겨 보세요."></div><div class="form-row full"><label for="record-quote">기억하고 싶은 문장</label><textarea id="record-quote" maxlength="300"></textarea></div><div class="form-row full"><label for="record-thought">나에게 남은 것</label><textarea id="record-thought" maxlength="500"></textarea></div><button id="save-record" type="button">기록 저장하기</button></div><p id="record-message" class="form-message" aria-live="polite"></p><div id="record-list" class="record-list"></div></section>
+    <section id="calendar" class="section-card"><div class="section-heading"><div><span class="section-number">04</span><h2>독서 달력</h2></div><p>읽은 날짜에 책 표지가 표시됩니다.</p></div><div class="calendar-controls"><button id="previous-month" type="button" aria-label="이전 달">‹</button><h3 id="calendar-month"></h3><button id="next-month" type="button" aria-label="다음 달">›</button></div><div class="calendar-weekdays" aria-hidden="true"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div id="calendar-grid" class="calendar-grid"></div><div id="calendar-detail" class="calendar-detail" aria-live="polite"></div></section>
+    <section id="summary" class="section-card"><div class="section-heading"><div><span class="section-number">05</span><h2>책장 요약</h2></div><p>작가를 누르면 해당 작가의 읽은 책을 확인할 수 있습니다.</p></div><div class="summary-grid"><article class="summary-card"><h3>독서 흐름</h3><div id="reading-summary" class="summary-items"></div></article><article class="summary-card"><h3>작가별</h3><div id="author-summary" class="summary-items"></div><div id="author-books" class="author-books" aria-live="polite"></div></article><article class="summary-card"><h3>분류별</h3><div id="category-summary" class="summary-items"></div></article></div></section>
+  </main>
+  <footer><p>BOOKSHELF · 나만의 독서 공간</p></footer><script src="js/app.js"></script>
 </body>
 </html>
